@@ -13,6 +13,8 @@ class User(db.Model, UserMixin): #"UserMixin", es para facilitar la implementaci
     email = db.Column(db.String(40), unique=True, nullable=False)
     password = db.Column(db.String(60), nullable=False)
     posts = db.relationship('Post',backref='author',lazy=True)
+    songs = db.relationship('Songs',backref='author',lazy=True)
+    ploteos = db.relationship('Ploteo',backref='author',lazy=True)
 
     def _repr_(self):
         return f'User({self.username}, {self.email})'
@@ -33,6 +35,7 @@ class Ploteo(db.Model, UserMixin):
     plo_lat=db.Column(db.String(15), nullable=False)
     plo_lon=db.Column(db.String(15), nullable=False)
     plo_fecha=db.Column(db.DateTime, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def _repr_(self):
         return f'Post({self.plo_lat}, {self.plo_lon})'
@@ -41,6 +44,7 @@ class Songs(db.Model, UserMixin):
     son_id=db.Column(db.Integer, primary_key=True)
     son_fecha=db.Column(db.DateTime, default=func.now())
     son_busqueda=db.Column(db.String(60), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def _repr_(self):
         return f'Post({self.son_fecha}, {self.son_busqueda})'

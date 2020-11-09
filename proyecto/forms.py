@@ -51,7 +51,7 @@ class RecoveryPassForm(FlaskForm): #FORMULARIO DE OLVIDE CONTRASEÑA
             raise ValidationError('Este email no existe') 
 
 class SongForm(FlaskForm): #FORMULARIO DE OLVIDE CONTRASEÑA
-    namesong= StringField('Nombre', validators=[DataRequired()],id='namesong')
+    namesong= StringField('Nombre de la canción', validators=[DataRequired()],id='namesong')
     submit = SubmitField('Buscar')
 
 class RestablecerForm(FlaskForm): #FORMAS DE REGISTRO 

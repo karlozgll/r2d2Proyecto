@@ -37,8 +37,13 @@
         <li style="color:red;">No se ha autenticado el reCAPTCHA</li>
         {% endfor %}
     <hr> 
-    <div class="form-group">
-        {{form.submit(class='btn btn-outline-info')}}
+    <div class="row form-group">
+        <div class="col">
+            {{form.submit(class='btn btn-outline-info')}}
+        </div>
+        <div class="col text-right">
+            <a href="{{url_for('restablecer')}}"> ¿Has olvidado tu contraseña? </a>
+        </div>     
     </div>
 </form>
 {% endblock %}

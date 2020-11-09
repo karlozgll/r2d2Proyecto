@@ -5,10 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
+    <script src="https://kit.fontawesome.com/f2af2bae7b.js" crossorigin="anonymous"></script>
     <script src="../static/js/prueba.js"></script>
     <link href="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.css" type="text/css" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> {% if title %}
+    <link href="../static/css/port.css" rel="stylesheet" />
     <title>Stellart - {{ title }}</title>
     {% else %}
     <title>Stellart</title>
@@ -21,7 +24,7 @@
 
 
             <a class="navbar-brand" href="{{url_for('home')}}">
-                <image class="align-self-center" src="/static/images/LogoSTELLART.svg" alt="" width='90' height='40' href=></image>
+                <image class="align-self-center" src="/static/images/logo.png" alt="" width='150' height='50' href=></image>
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -33,7 +36,7 @@
                         <a class="nav-link text-white" href="{{url_for('home')}}">Inicio</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="{{url_for('about')}}">Acerca de Nosotros</a>
+                        <a class="nav-link text-white" href="{{url_for('comunidad')}}">Comunidad</a>
                     </li>
                     {% if current_user.is_authenticated %}
                     <li class="nav-item">
@@ -45,8 +48,11 @@
                     <li class="nav-item">
                         <a class="nav-link text-white" href="{{url_for('songs')}}">Canciones</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="{{url_for('reporteploteo')}}">Reporte</a>
+                    <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle text-white" href="#" data-toggle="dropdown">  Reportes </a>
+                        <ul class="dropdown-menu">
+                            <li class="nav-item"><a class="nav-link text-dark" href="{{url_for('reporteploteo')}}">Reporte Ploteos</a></li>
+                            <li class="nav-item"><a class="nav-link text-dark" href="{{url_for('reportecancion')}}">Reporte Canciones</a></li>
+                        </ul>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-white" href="{{url_for('logout')}}">Cerrar Sesión</a>
@@ -63,7 +69,7 @@
             </div>
         </div>
     </nav>
-    <div class="container mt-5">
+    <div class="container mt-5" >
         {% with messages = get_flashed_messages(with_categories=true)%} {% for category, message in messages %}
         <div class="alert alert-{{ category }}">
             {{message}}

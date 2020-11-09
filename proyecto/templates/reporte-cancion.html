@@ -1,17 +1,15 @@
 {% extends 'layout.html' %}
 {% block content %}
 
-<h1>Registro de ploteos</h1>
+<h1>Registro de Canciones</h1>
 
 {% if registros %}
 
 <table class="table">
-  <thead class="text-white" style="background-color: #00001bf3;">
+    <thead class="text-white" style="background-color: #00001bf3;">
       <tr>
         
-        <th scope="col">Fecha ploteada</th>
-        <th scope="col">Latitud</th>
-        <th scope="col">Longitud</th>
+        <th scope="col">Busqueda</th>
         <th scope="col">Fecha </th>
         
       </tr>
@@ -20,17 +18,15 @@
 
         {% for r in registros%}
       <tr>
-        <th scope="row">{{r.plo_fecha}}</th>
-        <td>{{r.plo_lat}}</td>
-        <td>{{r.plo_lon}}</td>
-        <td>{{r.plo_fecha_creacion}}</td>
+        <td>{{r.son_busqueda}}</td>
+        <td>{{r.son_fecha}}</td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
 {% endif %}
 
-<form action="/reportar-ploteos" method="POST">
+<form action="/reportar-canciones" method="POST">
   
   <button type="submit" class="btn btn-outline-info">Generar Reporte</button>
 </form>

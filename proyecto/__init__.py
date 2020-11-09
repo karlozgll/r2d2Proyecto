@@ -11,7 +11,7 @@ from flask_login import LoginManager
 project_dir = os.path.dirname(os.path.abspath(__file__))
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'mysecretkey'
-app.config["SQLALCHEMY_DATABASE_URI"] = 'postgresql+psycopg2://postgres:123456@127.0.0.1:5432/proyecto'
+app.config["SQLALCHEMY_DATABASE_URI"] = 'postgresql+psycopg2://postgres:karlozgll@127.0.0.1:5432/proyecto'
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["RECAPTCHA_PUBLIC_KEY"] = "6LeWg_QUAAAAAGWw9pL7XThDWQQgPEMdgzuefZ81"
 app.config["RECAPTCHA_PRIVATE_KEY"] = "6LeWg_QUAAAAADlz5XrfTWDRrHiDFYRaLhb4oSGM"

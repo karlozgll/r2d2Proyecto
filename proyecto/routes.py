@@ -1,4 +1,4 @@
-from flask import render_template, flash, url_for, redirect, request, abort, jsonify, Response,json
+from flask import render_template, flash, url_for, redirect, request, abort, jsonify, Response,json, make_response
 from proyecto import app, bcrypt, db
 from proyecto.forms import RegistrationForm, LoginForm, PostForm, RecoveryPassForm, SongForm, RestablecerForm, MapForm
 from proyecto.models import User, Post, Songs, Ploteo
@@ -11,27 +11,25 @@ import proyecto.clases.astros.stellar as astroloco
 from flask import send_from_directory
 from proyecto.clases.Ipinfo import Ipinfo
 from datetime import datetime
+import proyecto.clases.pdf as PDFPLO
 import os
 
 s = URLSafeTimedSerializer('Thisisasecret!')
 
-@app.route('/ggladota', methods=['POST'])
-def respond():
-    print(request.json)
-    return Response(status=200)
+@app.route('/about')
+def about():
+    return render_template('port.html')
 
 # LA RUTA PRINCIPAL HOME O INICIO QUE PRESENTA A TRAVES DEL TEMPLATE index.html LAS PUBLICACIONES REALIZADAS POR EL USUARIO
 @app.route('/')
 def home():
+    
+    return render_template('port.html')
+
+@app.route('/comunidad')
+def comunidad():
     posts = Post.query.order_by(Post.date_posted.desc()).all()
     return render_template('index.html', posts=posts)
-
-
-# RUTA SOBRE "Acerca de Nosotros", TRABAJA CON EL TEMPLATE "about.html"
-@app.route('/about')
-def about():
-    return render_template('about.html', title='About')
-
 
 # RUTA PARA REGISTRAR UN USUARIO, TRABAJA CON EL TEMPLATE "register.html"
 @app.route('/register', methods=['GET', 'POST'])
@@ -145,6 +143,7 @@ def restablecer():
 
 
 @app.route('/songs', methods=['GET', 'POST'])
+@login_required
 def songs():
     form = SongForm()
     return render_template('songs.html', title='Canciones', form=form)
@@ -156,9 +155,9 @@ def process():
     sp = Spotipy()
     resultado = sp.busqueda_cancion(nombre)
     try:
-        aux=Songs(son_busqueda=nombre)
-        db.add(aux)
-        db.commit()
+        aux=Songs(son_busqueda=nombre,user_id=current_user.id)
+        db.session.add(aux)
+        db.session.commit()
     except Exception as e:
         print(e)
     # return resultado
@@ -189,6 +188,7 @@ def confirm_email(token):
     return render_template('confirm_email.html', title='Restablecer Contraseña', form=form)
 
 @app.route('/maps', methods=['GET', 'POST'])
+@login_required
 def maps():
 
     form = MapForm()
@@ -211,7 +211,7 @@ def ploteomaps():
         str(dia)+"_"+str(mes)+"_"+str(año)+"_"+str(hora)+"_"+str(minu)+'.svg'
     
     try:
-        aux=Ploteo(plo_lat=lat, plo_lon=lon, plo_fecha=datetime(año,mes,dia,hora,minu,seg))
+        aux=Ploteo(plo_lat=lat, plo_lon=lon, plo_fecha=datetime(año,mes,dia,hora,minu,seg),user_id=current_user.id)
         db.session.add(aux)
         db.session.commit()
     except Exception as e:
@@ -232,7 +232,27 @@ def getIP():
     return data
 
 @app.route('/reporte-ploteos', methods=['GET', 'POST'])
+@login_required
 def reporteploteo():
-    reg=Ploteo.query.all()
-
+    reg=db.session.query(Ploteo).filter_by(user_id=current_user.id).all()
     return render_template('reporte-ploteo.html',registros=reg)
+
+@app.route('/reporte-cancion', methods=['GET', 'POST'])
+@login_required
+def reportecancion():
+    reg=db.session.query(Songs).filter_by(user_id=current_user.id).all()
+    return render_template('reporte-cancion.html',registros=reg)    
+
+@app.route('/reportar-ploteos', methods=['GET', 'POST'])
+@login_required
+def reportarploteos():
+    plts = db.session.query(Ploteo).filter_by(user_id=current_user.id).all()
+    respuesta = PDFPLO.pdfPloteo(plts)
+    return respuesta
+
+@app.route('/reportar-canciones', methods=['GET', 'POST'])
+@login_required
+def reportarcanciones():
+    plts = db.session.query(Songs).filter_by(user_id=current_user.id).all()
+    respuesta = PDFPLO.pdfPloteo2(plts)
+    return respuesta
