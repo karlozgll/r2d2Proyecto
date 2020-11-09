@@ -1,0 +1,11 @@
+{% block content %}
+<div style="max-width: 600px; max-height:600px; margin: auto;">
+    <object data="../static/images/{{results}}" type="image/svg+xml" style="width: 100%; height:auto; margin: auto;"> 
+    </object>
+    <h2>
+        <a class= "border border-dark badge badge-primary text-wrap" href="../static/images/{{results}}" download="{{results}}" >
+            Descargar SVG
+        </a> 
+    </h2> 
+</div>
+{% endblock %}

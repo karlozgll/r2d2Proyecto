@@ -1,0 +1,73 @@
+{% extends 'layout.html' %}
+{% block content %}
+<form id="formmap" action="" method="POST" style="width: 60%" class="mx-auto mb-3">
+    {{form.hidden_tag()}}
+    <h3 class="text-center">Parametros</h3>
+    <hr>
+    <div  class="form-group">
+        {{form.lat.label}}
+        {% if form.lat.errors %}
+        {{form.lat(class='form-control is-invalid')}}
+        <div class="invalid-feedback">
+            {% for error in form.lat.errors %}
+            <span>{{error}}</span>
+            {% endfor %}
+        </div>
+        {% else %}
+        {{form.lat(class='form-control')}}
+        {% endif %}
+    </div>
+    <div class="form-group">
+        {{form.lon.label}}
+        {% if form.lon.errors %}
+        {{form.lon(class='form-control is-invalid')}}
+        <div class="invalid-feedback">
+            {% for error in form.lon.errors %}
+            <span>{{error}}</span>
+            {% endfor %}
+        </div>
+        {% else %}
+        {{form.lon(class='form-control')}}
+        {% endif %}
+    </div>
+    <div class="form-group">
+        {{form.fecha.label}}
+        {% if form.fecha.errors %}
+        {{form.fecha(class='form-control is-invalid')}}
+        <div class="invalid-feedback">
+            {% for error in form.fecha.errors %}
+            <span>{{error}}</span>
+            {% endfor %}
+        </div>
+        {% else %}
+        {{form.fecha(class='form-control')}}
+        {% endif %}
+    </div>
+    <div class="form-group">
+        {{form.start.label}}
+        {% if form.start.errors %}
+        {{form.start(class='form-control is-invalid')}}
+        <div class="invalid-feedback">
+            {% for error in form.start.errors %}
+            <span>{{error}}</span>
+            {% endfor %}
+        </div>
+        {% else %}
+        {{form.start(class='form-control')}}
+        {% endif %}
+    </div>
+
+    <div class="form-group">
+        {{form.submit(class='btn btn-outline-info')}}
+    </div>
+</form>
+<hr>
+<div id='map' style='width: 400px; height: 400px; margin: auto;'>
+</div>
+<hr>
+<div id="contploteo" class="container">
+</div>
+<script src="../static/js/fecha.js"></script>
+
+{% endblock %}
+

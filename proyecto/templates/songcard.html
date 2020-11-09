@@ -1,0 +1,22 @@
+ {% block content %} {% for track in results %}
+ <hr>
+<div class="container">
+    <div class="row mb-3">
+        <div class="col-md-auto align-self-center">
+            <img class="rounded" src="{{track[3]}}" width="60" height="60">
+            <!-- imagen-->
+        </div>
+        <div class="col-md align-self-center">
+            <h5 class="text-justify text-body">{{track[0]}}</h5>
+        </div>
+        <div class="col-md-auto align-self-center">
+            <button class="play btn btn-outline-primary" width="60" height="60" data-audio="{{track[1]}}">►
+                <audio id="{{track[1]}}" src="{{track[2]}}"></audio>
+            </button>
+        </div>
+        <div class="col align-self-center" > 
+            <img src="https://scannables.scdn.co/uri/plain/svg/000000/white/300/spotify:track:{{track[1]}}" alt="codigo descargable sp"> 
+        </div>
+    </div>
+</div>
+    {% endfor %} {% endblock %}

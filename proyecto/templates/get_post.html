@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="mx-auto" style="width: 80%">
+    <div class="card mt-2">
+        <small class="ml-3 mt-2">
+            Por {{post.author.username}}
+            , el {{post.date_posted.strftime('%d-%m-%Y')}}
+        </small>
+        <hr>
+        <div clas="card-body">
+            {% if current_user ==post.author %}
+            <div class="ml-3 mb-2 float-right">
+                <a href="{{url_for('update_post',post_id=post.id)}}" class="btn btn-secondary btn-sm">Actualizar</a>
+                <a href="{{url_for('delete_post',post_id=post.id)}}" class="btn btn-danger btn-sm">Eliminar</a>
+            </div>
+            {% endif %}
+            <h5 class="card-title"> &nbsp {{ post.title }} </h5>
+            <p class="card-text"> &nbsp {{ post.description }} </p>
+        </div>
+    </div>
+</div>
+{% endblock %}
