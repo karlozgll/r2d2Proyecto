@@ -1,5 +1,6 @@
 from proyecto import db, login_manager
 from datetime import datetime
+from sqlalchemy import func
 from flask_login import UserMixin
 
 @login_manager.user_loader  #Para recordar el Usuario logeado
@@ -25,3 +26,21 @@ class Post(db.Model, UserMixin):
 
     def _repr_(self):
         return f'Post({self.title}, {self.description})'
+
+class Ploteo(db.Model, UserMixin):
+    plo_id=db.Column(db.Integer, primary_key=True)
+    plo_fecha_creacion=db.Column(db.DateTime, default=func.now())
+    plo_lat=db.Column(db.String(15), nullable=False)
+    plo_lon=db.Column(db.String(15), nullable=False)
+    plo_fecha=db.Column(db.DateTime, nullable=False)
+
+    def _repr_(self):
+        return f'Post({self.plo_lat}, {self.plo_lon})'
+
+class Songs(db.Model, UserMixin):
+    son_id=db.Column(db.Integer, primary_key=True)
+    son_fecha=db.Column(db.DateTime, default=func.now())
+    son_busqueda=db.Column(db.String(60), nullable=False)
+
+    def _repr_(self):
+        return f'Post({self.son_fecha}, {self.son_busqueda})'

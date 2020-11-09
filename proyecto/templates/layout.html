@@ -37,17 +37,26 @@
                     </li>
                     {% if current_user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="{{url_for('logout')}}">Cerrar Sesión</a>
+                        <a class="nav-link text-white" href="{{url_for('create_post')}}">Crear Publicación</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="{{url_for('create_post')}}">Crear Publicación</a>
+                        <a class="nav-link text-white" href="{{url_for('maps')}}">Mapas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{{url_for('songs')}}">Canciones</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{{url_for('reporteploteo')}}">Reporte</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{{url_for('logout')}}">Cerrar Sesión</a>
                     </li>
                     {% else %}
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="{{url_for('login')}}">Inicar Sesión</a>
+                        <a class="nav-link text-white" href="{{url_for('login')}}">Iniciar Sesión</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="{{url_for('register')}}">Regitrarse</a>
+                        <a class="nav-link text-white" href="{{url_for('register')}}">Registrarse</a>
                     </li>
                     {% endif %}
                 </ul>

@@ -1,7 +1,7 @@
 from flask import render_template, flash, url_for, redirect, request, abort, jsonify, Response,json
 from proyecto import app, bcrypt, db
 from proyecto.forms import RegistrationForm, LoginForm, PostForm, RecoveryPassForm, SongForm, RestablecerForm, MapForm
-from proyecto.models import User, Post
+from proyecto.models import User, Post, Songs, Ploteo
 from flask_login import login_user, logout_user, current_user, login_required
 from proyecto.clases.recovery import Recovery
 from proyecto.clases.spotipy import Spotipy
@@ -10,6 +10,7 @@ from proyecto.clases.astros.stellar import Astros
 import proyecto.clases.astros.stellar as astroloco
 from flask import send_from_directory
 from proyecto.clases.Ipinfo import Ipinfo
+from datetime import datetime
 import os
 
 s = URLSafeTimedSerializer('Thisisasecret!')
@@ -154,6 +155,12 @@ def process():
     nombre = request.form['nombre']
     sp = Spotipy()
     resultado = sp.busqueda_cancion(nombre)
+    try:
+        aux=Songs(son_busqueda=nombre)
+        db.add(aux)
+        db.commit()
+    except Exception as e:
+        print(e)
     # return resultado
     return render_template('songcard.html', title='Canciones', results=resultado)
 
@@ -202,6 +209,13 @@ def ploteomaps():
     astroloco.appAstrosQR(lat, lon, año, mes, dia, hora, minu, seg)
     resultado = 'astros' + lat + "_" + \
         str(dia)+"_"+str(mes)+"_"+str(año)+"_"+str(hora)+"_"+str(minu)+'.svg'
+    
+    try:
+        aux=Ploteo(plo_lat=lat, plo_lon=lon, plo_fecha=datetime(año,mes,dia,hora,minu,seg))
+        db.session.add(aux)
+        db.session.commit()
+    except Exception as e:
+        print("ERROR: ",e)
     return render_template('ploteo.html', title='Mapa', results=resultado)
 
 @app.route('/getIP', methods=['GET', 'POST'])
@@ -216,3 +230,9 @@ def getIP():
     IP = Ipinfo()
     data = IP.ip_scraping(ip)
     return data
+
+@app.route('/reporte-ploteos', methods=['GET', 'POST'])
+def reporteploteo():
+    reg=Ploteo.query.all()
+
+    return render_template('reporte-ploteo.html',registros=reg)
