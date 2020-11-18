@@ -2,3 +2,6 @@
 __pycache__
 de421.bsp
 __init__.py
+proyecto/__init__.py
+*.svg
+

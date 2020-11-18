@@ -200,18 +200,14 @@ def ploteomaps():
     form = MapForm(request.form)
     lat = form.lat.data
     lon = form.lon.data
-    dia = form.fecha.data.day
-    mes = form.fecha.data.month
-    año = form.fecha.data.year
-    hora = form.start.data.hour
-    minu = form.start.data.minute
-    seg = form.start.data.second
-    astroloco.appAstrosQR(lat, lon, año, mes, dia, hora, minu, seg)
+    fecha = form.fecha.data
+    hora=form.start.data
+    fecha_hora=datetime.combine(fecha,hora)
+    astroloco.funcion_principal(lat, lon, fecha_hora)
     resultado = 'astros' + lat + "_" + \
-        str(dia)+"_"+str(mes)+"_"+str(año)+"_"+str(hora)+"_"+str(minu)+'.svg'
-    
+        fecha_hora.strftime("%Y-%m-%d-%H-%M-%S")+'.svg'
     try:
-        aux=Ploteo(plo_lat=lat, plo_lon=lon, plo_fecha=datetime(año,mes,dia,hora,minu,seg),user_id=current_user.id)
+        aux=Ploteo(plo_lat=lat, plo_lon=lon, plo_fecha=datetime.combine(fecha,hora),user_id=current_user.id)
         db.session.add(aux)
         db.session.commit()
     except Exception as e:
